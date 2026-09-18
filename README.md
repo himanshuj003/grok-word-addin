@@ -1,68 +1,80 @@
 # Grok Word Add-in
 
-A native **Grok AI sidebar** (task pane) for Microsoft Word.
+**Native Grok AI sidebar for Microsoft Word**
+
+Live repo: https://github.com/himanshuj003/grok-word-addin
 
 ## Features
 
-- Chat with Grok directly inside Word
+- Chat with Grok directly inside Word (task pane)
 - Read current selection or entire document
-- Insert Grok replies into the document
+- Insert Grok replies into the document with one click
 - Rewrite / improve selected text
-- Smart context awareness (selection change)
-- Uses your own xAI API key
+- Optional auto-context from current selection
+- Uses **your own** xAI API key (you control cost)
 
-## Quick Start (Sideload)
+## How to use (Sideload)
 
 ### 1. Get an xAI API Key
-Go to [https://console.x.ai](https://console.x.ai) and create an API key.
+Go to [console.x.ai](https://console.x.ai) → create an API key.
 
-### 2. Sideload the add-in in Word
+### 2. Enable GitHub Pages (so the add-in can load)
+1. Go to the repo → **Settings → Pages**
+2. Source: **Deploy from a branch**
+3. Branch: `main` / root
+4. Save
 
-**Windows / Mac (Word desktop):**
-1. Open Word
-2. Go to **Insert → Add-ins → My Add-ins → Upload My Add-in**
-3. Select the `manifest.xml` file from this repo
-4. The Grok sidebar will appear
+After a minute the files will be available at:
+`https://himanshuj003.github.io/grok-word-addin/`
 
-**Or use the shared folder method (recommended for development):**
-1. Create a folder: `%USERPROFILE%\AppData\Local\Microsoft\Office\16.0\Wef` (Windows)
-2. Put the entire project (or at least `manifest.xml` + `src`) there
-3. Restart Word → Insert → My Add-ins → Shared Folder
+### 3. Sideload in Word
 
-### 3. Enter your API key
-In the sidebar, paste your xAI API key and click Save. It is stored only in your browser/local storage.
+**Easiest method (Desktop Word):**
+1. Download `manifest.xml` from this repo
+2. Open Word → **Insert → Add-ins → My Add-ins → Upload My Add-in**
+3. Choose the `manifest.xml` file
+4. Click the **Open Grok** button that appears on the Home tab
+
+**Alternative (Shared Folder method – good for development):**
+- Windows: put the project in  
+  `%USERPROFILE%\AppData\Local\Microsoft\Office\16.0\Wef`
+- Restart Word → Insert → My Add-ins → Shared Folder
+
+### 4. Enter your API key
+Click the ⚙️ icon in the sidebar → paste your key → Save.
 
 ## Project Structure
 
 ```
 grok-word-addin/
-├── manifest.xml          # Office Add-in manifest
-├── src/
-│   └── taskpane/
-│       ├── taskpane.html
-│       ├── taskpane.css
-│       └── taskpane.js
-├── assets/               # Icons (optional)
+├── manifest.xml
+├── src/taskpane/
+│   ├── taskpane.html
+│   ├── taskpane.css
+│   └── taskpane.js
+├── assets/
 └── README.md
 ```
 
-## Development
+## Development notes
 
-This is a pure static Office Add-in (no build step required for basic use).
+- Pure static add-in (no build step needed)
+- Model used: `grok-3` (change in `taskpane.js` if needed)
+- API is OpenAI-compatible: `https://api.x.ai/v1/chat/completions`
 
-For local development with live reload you can use:
-```bash
-npx office-addin-dev-certs install
-npx http-server -p 3000 --cors
-```
-Then update the URLs in `manifest.xml` to `https://localhost:3000`.
+## Next improvements we can add
 
-## Disclaimer
-
-- This is an unofficial community project.
-- You are responsible for your own xAI API usage and costs.
-- Never commit your API key.
+- Streaming responses
+- Better document context (paragraph / heading aware)
+- Tone / style presets
+- Local icons
+- One-click “Improve whole document”
+- Support for more Office hosts (Outlook, PowerPoint later)
 
 ## License
 
-MIT
+MIT – free to use and modify.
+
+---
+**You are responsible for your own xAI API usage and costs.**
+Never commit your API key.
